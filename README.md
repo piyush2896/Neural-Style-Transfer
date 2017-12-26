@@ -22,10 +22,10 @@ optional arguments:
 
 
 ## Content Image
-![Content Image](./images/content/me.jpg =320x320)
+![Content Image](./images/content/me.jpg =320x)
 
 ## Style Image
-![Style Image](./images/styles/stary-night.jpg =220x175)
+![Style Image](./images/styles/stary-night.jpg =220x)
 
 ## Output Image
-![Output Image](./output/generated_img.jpg = 320x320)
+![Output Image](./output/generated_img.jpg = 320x)
