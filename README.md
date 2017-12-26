@@ -21,7 +21,11 @@ optional arguments:
 3. Tensorflow
 
 
-## Output
-![Content Image](./images/content/me.jpg)
-![Style Image](./images/styles/stary-night.jpg)
-![Output Image](./output/generated_img.jpg)
+## Content Image
+![Content Image](./images/content/me.jpg =320x320)
+
+## Style Image
+![Style Image](./images/styles/stary-night.jpg =220x175)
+
+## Output Image
+![Output Image](./output/generated_img.jpg = 320x320)
