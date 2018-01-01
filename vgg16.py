@@ -3,7 +3,8 @@ import pprint
 
 
 def vgg16(is_input_trainable=False, fine_tune_last=False,
-          n_classes=1000, input_shape=[None, 224, 224, 3]):
+          n_classes=1000, input_shape=[None, 224, 224, 3],
+          n_last_layers_trainable=0):
     path_conv = 'vgg_16/conv'
     path_fc = 'vgg_16/fc'
     ckpt_path = './pretrained-model/vgg16/vgg_16.ckpt'
@@ -53,8 +54,8 @@ def vgg16(is_input_trainable=False, fine_tune_last=False,
         params = {'W': w, 'b': b}
         return Z, params
 
-    def fc_layer(A_prev, stage):
-        Z, params = fc_layer_wo_nonlin(A_prev, stage)
+    def fc_layer(A_prev, stage, freeze=True):
+        Z, params = fc_layer_wo_nonlin(A_prev, stage, freeze=freeze)
         A = tf.nn.relu(Z, name='fc'+str(stage))
         params['Z'] = Z
         return A, params
