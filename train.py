@@ -29,11 +29,11 @@ STYLE_LAYERS = [
 
 def compute_content_cost(a_content, a_generated):
     m , height, width, channels = a_generated.get_shape().as_list()
-    shape = (height * width * channels, -1)
+    shape = (height * width, channels, -1)
     cnt_unrolled = tf.transpose(tf.reshape(a_content, shape))
     gen_unrolled = tf.transpose(tf.reshape(a_generated, shape))
 
-    den = 4 * shape[0]
+    den = 4 * shape[0] * shape[1]
     content_loss = tf.reduce_sum(tf.square(tf.subtract(cnt_unrolled, gen_unrolled))) / den
     return content_loss
 
@@ -44,7 +44,7 @@ def get_gram_matrix(A):
 
 def compute_layer_style_cost(a_style, a_generated):
     m, height, width, channels = a_generated.get_shape().as_list()
-    shape = (height * width, channels, )
+    shape = (height * width, channels)
     stl_unrolled = tf.transpose(tf.reshape(a_style, shape))
     gen_unrolled = tf.transpose(tf.reshape(a_generated, shape))
 
@@ -78,11 +78,11 @@ def train(args):
     style_img = load_image(args.stl, size=args.size)
     input_img = generate_noisy_image(content_img, img_width=args.size[1], img_height=args.size[0])
 
-    optimizer = tf.train.AdamOptimizer(2.0)
+    optimizer = tf.train.AdamOptimizer(5.0)
 
     with tf.Session() as sess:
         sess.run(model['input'].assign(content_img))
-        out = model['conv4_1']
+        out = model['conv4_2']
         a_content = sess.run(out)
         a_generated = out
         content_cost = compute_content_cost(a_content, a_generated)

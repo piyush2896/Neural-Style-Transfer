@@ -21,6 +21,6 @@ def save_image(img, path):
 
 def load_image(path, size):
     img = scipy.misc.imread(path)
-    img = img - vgg_mean
     img = scipy.misc.imresize(img, size=size)
-    return np.expand_dims(img, axis=0)
+    img = np.expand_dims(img, axis=0)
+    return img - vgg_mean
