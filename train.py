@@ -1,5 +1,6 @@
 import tensorflow as tf
 from vgg16 import vgg16
+from vgg19 import vgg19
 import numpy as np
 import argparse
 import sys
@@ -15,6 +16,8 @@ parser.add_argument("--cnt", metavar="cnt_img", help="Content Image for style tr
 parser.add_argument("--stl", metavar="stl_img", help="Style Image for style transfer")
 parser.add_argument("--size", metavar="size", nargs='+', type=int,
                     help="Size of output image [height, width]")
+parser.add_argument("--model", metavar="model", default="vgg19",
+                    help="Model type to use ('vgg16' or 'vgg19'). default - vgg19")
 parser.add_argument("--niters", metavar="n_iters", help="Number of iterations to run for", type=int)
 args = parser.parse_args()
 
@@ -72,7 +75,12 @@ def total_cost(content_cost, style_cost, alpha=10, beta=40):
 
 
 def train(args):
-    model, params = vgg16(is_input_trainable=True, input_shape=[1, args.size[0], args.size[1], 3])
+    if args.model == "vgg16":
+        model, params = vgg16(is_input_trainable=True,
+                              input_shape=[1, args.size[0], args.size[1], 3])
+    else:
+        model, params = vgg19(is_input_trainable=True,
+                              input_shape=[1, args.size[0], args.size[1], 3])
 
     content_img = load_image(args.cnt, size=args.size)
     style_img = load_image(args.stl, size=args.size)
